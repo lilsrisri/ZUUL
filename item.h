@@ -4,12 +4,16 @@
 
 #ifndef ITEM_H
 #define ITEM_H
-#include <string>
+
+#include <iostream>
+#include <cstring>
 
 using namespace std;
 
 struct Item{
-    string name;
+    char name[100];
+    bool onPerson = false;
+
 };
 
 #endif //ITEM_H
