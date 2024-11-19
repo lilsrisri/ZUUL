@@ -74,19 +74,65 @@ void initializeGame(vector<Room*>& rooms, vector<Item*>& items) { //Function to 
 
 }
 
-
+Room* play(Room* currentRoom);
 
 int main() {
     vector<Room*> allRooms;
     vector<Item*> allItems;
     initializeGame(allRooms, allItems);
+    Room* currentRoom = allRooms[1]; //Rooms of 1 is mainhall
     for (int i = 0; i < allRooms.size(); ++i) {
         cout << allRooms[i]->getName() << endl;
     }
     for (int i = 0; i < allItems.size(); ++i) {
         cout << "Item '" << allItems[i]->getName() << "' is in room '" << allItems[i]->getLocation()->getName() << "'!\n";
     }
+    cout << "Welcome to Sriram's Zuul Game. Here is how you will play.\n";
+    cout << "When prompted to make a move, you have 4 action words to choose from. GO, PICK, DROP, QUIT.\n";
+    cout << "GO requires a direction (GO NORTH, GO EAST), and you will move in that direction to a different room.\n";
+    cout << "PICK requires an item (PICK notebook, PICK sriram), and you will pick up the specified item IF it is in the room you are in.\n";
+    cout << "DROP is similar to PICK, it requires an item, and you will drop that specified item IF it is in your inventory.\n";
+    /* while (currentRoom != allRooms[14]) { //While the current room is not the gym (the win conditino)
+        currentRoom = play(currentRoom);
+    }
+    */
 
+    /*
+finishGame(allRooms, allItems); //Deletes all rooms and items to avoid memory leak
+    cout << "Congratulations on winning!\n";
 
+ */
     return 0;
 }
+
+/*
+Room* play(Room* currentRoom, vector<Room*>& allRooms, vector<Item*>& allItems) {
+
+    cout << "You are in: " << allRooms[currentRoom]->getName() << endl;
+    cout << "Here are the items: " << allItems[currentRoom].getName() << endl;
+
+                    PSEUDOCODE
+    /*print all exits/directions of the current room, and all the items
+    cin >> <action> <target>
+    if action == GO, {
+        if target == north, return currentRoom->getNorth,
+        else if target == east, return currentRoom->getEast
+        else if target == south, return currentRoom->getSouth
+        else if target == west, return currentRoom->getWest }
+     else if action == PICK, {
+        item = findItem(target)
+        item->location = nullPTR,
+        return currentRoom
+    }
+    else if action == DROP {
+        item = findItem(target)
+        item->location = currentRoom
+        return currentRoom
+    }
+    else if action == QUIT{
+        cout << "Thanks for trying"
+        finishGame(allRooms, allItems); This will delete all rooms and items to avoid memory leaks
+        exit();
+        }
+    */
+
