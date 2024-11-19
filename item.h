@@ -7,12 +7,18 @@
 
 #include <iostream>
 #include <cstring>
+#include "room.h"
 
 using namespace std;
 
-struct Item{
-    char name[100];
-    bool onPerson = false;
+class Item{
+public:
+    Item(const char* name_arg, Room* location_arg);
+    const char* getName();
+    Room* getLocation();
+private:
+    const char* name;
+    Room* location;
 
 };
 

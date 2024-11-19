@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void initializeRooms(vector<Room*>& rooms) { //Function to initialize rooms
+void initializeGame(vector<Room*>& rooms, vector<Item*>& items) { //Function to initialize rooms
     //Creating all the rooms
     Room* parkingLot =  new Room("Parking Lot"); rooms.push_back(parkingLot);
     Room* mainHall = new Room("Main Hall"); rooms.push_back(mainHall);
@@ -63,9 +63,29 @@ void initializeRooms(vector<Room*>& rooms) { //Function to initialize rooms
     gym->setNorth(lockerRoom); //north of gym is locker room
 
 
+    Item* car = new Item("Car", parkingLot); items.push_back(car); //Car is in parking lot
+    Item* noteBook = new Item("NoteBook", fishBowl); items.push_back(noteBook); //Notebook is in the fishbowl
+    Item* milk = new Item("Milk", cafeteria); items.push_back(milk); //Milk is in cafeteria
+    Item* key = new Item("Key", cafeteria); items.push_back(key); //Key is in cafeteria
+    Item* dictionary = new Item("Dictionary", frenchClass); items.push_back(dictionary); //Dictionary is in french class
+    Item* sriram = new Item("Sriram", computerLab); items.push_back(sriram); //Sriram is in computerlab
+    Item* goggles = new Item("Goggles", scienceClass); items.push_back(goggles); //Goggles is in science class
+    Item* bandAid = new Item("Band-Aid", healthClass); items.push_back(bandAid); //Notebook is in fishbowl
+
 }
 
+
+
 int main() {
+    vector<Room*> allRooms;
+    vector<Item*> allItems;
+    initializeGame(allRooms, allItems);
+    for (int i = 0; i < allRooms.size(); ++i) {
+        cout << allRooms[i]->getName() << endl;
+    }
+    for (int i = 0; i < allItems.size(); ++i) {
+        cout << "Item '" << allItems[i]->getName() << "' is in room '" << allItems[i]->getLocation()->getName() << "'!\n";
+    }
 
 
     return 0;

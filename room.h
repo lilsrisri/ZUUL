@@ -7,9 +7,8 @@
 
 #include <iostream>
 #include <cstring>
-#include "item.h"
 #include <vector>
-#include "room.h"
+
 using namespace std;
 
 
@@ -20,16 +19,16 @@ public:
     void setEast(Room* room);
     void setSouth(Room* room);
     void setWest(Room* room);
+    const char* getName();
 private:
     const char* name;
     // vector<int> exits;
-    vector<Item*> items;
+    //vector<Item*> items;
     Room* north = nullptr;
     Room* east = nullptr;
     Room* south = nullptr;
     Room* west = nullptr;
 };
-
 
 #endif //ROOM_H
 

@@ -4,11 +4,15 @@
 
 #include "room.h"
 
+
 using namespace std;
 
 Room::Room(const char* name_arg) {
     name = name_arg;
 
+}
+const char* Room::getName(){
+    return name;
 }
 void Room::setNorth(Room* room) {
     north = room;
@@ -22,3 +26,5 @@ void Room::setSouth(Room* room) {
 void Room::setWest(Room* room) {
     west = room;
 }
+
+
