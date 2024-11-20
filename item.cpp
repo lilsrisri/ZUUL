@@ -16,3 +16,7 @@ const char* Item::getName() {
 Room* Item::getLocation() {
     return location;
 }
+
+void Item::setLocation(Room* room) {
+    location = room;
+}

@@ -16,6 +16,7 @@ public:
     Item(const char* name_arg, Room* location_arg);
     const char* getName();
     Room* getLocation();
+    void setLocation(Room* room);
 private:
     const char* name;
     Room* location;

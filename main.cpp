@@ -70,49 +70,165 @@ void initializeGame(vector<Room*>& rooms, vector<Item*>& items) { //Function to 
     Item* dictionary = new Item("Dictionary", frenchClass); items.push_back(dictionary); //Dictionary is in french class
     Item* sriram = new Item("Sriram", computerLab); items.push_back(sriram); //Sriram is in computerlab
     Item* goggles = new Item("Goggles", scienceClass); items.push_back(goggles); //Goggles is in science class
-    Item* bandAid = new Item("Band-Aid", healthClass); items.push_back(bandAid); //Notebook is in fishbowl
+    Item* bandAid = new Item("BandAid", healthClass); items.push_back(bandAid); //Notebook is in fishbowl
 
 }
 
-Room* play(Room* currentRoom);
+Room* play(Room* currentRoom, vector<Room*>& allRooms, vector<Item*>& allItems);
+Item* findItem(vector<Item*>& allItems, const char* name, Room* currentRoom);
+
+void finishGame(vector<Room*>& allRooms, vector<Item*>& allItems) {
+    for (int i = 0; i < allRooms.size(); ++i) {
+        delete allRooms[i];
+    }
+    for (int i = 0; i < allItems.size(); ++i) {
+        delete allItems[i];
+    }
+}
 
 int main() {
     vector<Room*> allRooms;
     vector<Item*> allItems;
     initializeGame(allRooms, allItems);
     Room* currentRoom = allRooms[1]; //Rooms of 1 is mainhall
-    for (int i = 0; i < allRooms.size(); ++i) {
+    /*for (int i = 0; i < allRooms.size(); ++i) {
         cout << allRooms[i]->getName() << endl;
     }
     for (int i = 0; i < allItems.size(); ++i) {
         cout << "Item '" << allItems[i]->getName() << "' is in room '" << allItems[i]->getLocation()->getName() << "'!\n";
-    }
+    } */
     cout << "Welcome to Sriram's Zuul Game. Here is how you will play.\n";
     cout << "When prompted to make a move, you have 4 action words to choose from. GO, PICK, DROP, QUIT.\n";
     cout << "GO requires a direction (GO NORTH, GO EAST), and you will move in that direction to a different room.\n";
     cout << "PICK requires an item (PICK notebook, PICK sriram), and you will pick up the specified item IF it is in the room you are in.\n";
     cout << "DROP is similar to PICK, it requires an item, and you will drop that specified item IF it is in your inventory.\n";
-    /* while (currentRoom != allRooms[14]) { //While the current room is not the gym (the win conditino)
-        currentRoom = play(currentRoom);
+    while (currentRoom != allRooms[14]) { //While the current room is not the gym (the win conditino)
+        currentRoom = play(currentRoom, allRooms, allItems);
     }
-    */
 
-    /*
-finishGame(allRooms, allItems); //Deletes all rooms and items to avoid memory leak
+    finishGame(allRooms, allItems); //Deletes all rooms and items to avoid memory leak
     cout << "Congratulations on winning!\n";
-
- */
     return 0;
 }
 
-/*
+void printItems(Room* target, vector<Item*>& allItems) {
+    bool found = false;
+    for (int i = 0; i < allItems.size(); ++i) {
+        if (allItems[i]->getLocation() == target) {
+            found = true;
+            if (target == nullptr) {
+                cout << "YOU HAVE: " << allItems[i]->getName() << endl;
+            }
+            else {
+                cout << "THIS ROOM HAS: " << allItems[i]->getName() << endl;
+            }
+        }
+    }
+    if (!found) {
+        if (target == nullptr) {
+            cout << "YOU HAVE NO ITEMS.\n";
+        }
+        else {
+            cout << "THIS ROOM HAS NO ITEMS." << endl;
+        }
+    }
+}
+
+Item* findItem(vector<Item*>& allItems, const char* name, Room* currentRoom) {
+    for (int i = 0; i < allItems.size(); ++i) {
+        if (strcasecmp(allItems[i]->getName(), name) == 0 && allItems[i]->getLocation() == currentRoom) {
+            return allItems[i];
+        }
+    }
+    return nullptr;
+}
+
+void printExits(Room* target) {
+    if (target->getNorth() != nullptr) {
+        cout << "To the north is: " << target->getNorth()->getName() << endl;
+    }
+    if (target->getEast() != nullptr) {
+        cout << "To the east is: " << target->getEast()->getName() << endl;
+    }
+    if (target->getSouth() != nullptr) {
+        cout << "To the south is: " << target->getSouth()->getName() << endl;
+    }
+    if (target->getWest() != nullptr) {
+        cout << "To the west is: " << target->getWest()->getName() << endl;
+    }
+}
+
 Room* play(Room* currentRoom, vector<Room*>& allRooms, vector<Item*>& allItems) {
+    cout << "You are in: " << currentRoom->getName() << endl;
+    printItems(currentRoom,allItems);
+    printItems(nullptr, allItems);
+    printExits(currentRoom);
+    char action[100], target[100];
+    cout << "Make a move: ";
+    cin >> action;
+    if (strcasecmp(action, "GO") == 0) {
+        cin >> target;
+        if (strcasecmp(target, "NORTH") == 0 && currentRoom->getNorth() != nullptr) {
+            return currentRoom->getNorth();
+        }
+        else if (strcasecmp(target, "EAST") == 0 && currentRoom->getEast() != nullptr) {
+            return currentRoom->getEast();
+        }
+        else if (strcasecmp(target, "SOUTH") == 0 && currentRoom->getSouth() != nullptr) {
+            if (currentRoom == allRooms[13]) {
+                Item* item = findItem(allItems, "key", nullptr);
+                if (item == nullptr) {
+                    cout << "You do not have the key. Go get it then come back!" << endl;
+                    return currentRoom;
+                }
+                else {
+                    cout << "Your key unlocks the door, go right in" << endl;
+                }
+            }
+            return currentRoom->getSouth();
+        }
+        else if (strcasecmp(target, "WEST") == 0 && currentRoom->getWest() != nullptr) {
+            return currentRoom->getWest();
+        }
+        else {
+            cout << "Invalid direction. Try again.\n";
+        }
+    }
+    else if (strcasecmp(action, "PICK") == 0) {
+        cin >> target;
+        Item* item = findItem(allItems, target, currentRoom);
+        if (item == nullptr) {
+            cout << "Invalid item or not in this room. Try again." << endl;
+        }
+        else {
+            item->setLocation(nullptr);
+        }
+    }
+    else if (strcasecmp(action, "DROP") == 0) {
+        cin >> target;
+        Item* item = findItem(allItems, target, nullptr);
+        if (item == nullptr) {
+            cout << "Invalid item, or you don't have that. Try again." << endl;
+        }
+        else {
+            item->setLocation(currentRoom);
+        }
+    }
+    else if (strcasecmp(action, "QUIT") == 0) {
+        finishGame(allRooms, allItems);
+        exit(0);
+    }
+    else {
+        cout << "Invalid input or input. Try again." << endl;
+    }
 
-    cout << "You are in: " << allRooms[currentRoom]->getName() << endl;
-    cout << "Here are the items: " << allItems[currentRoom].getName() << endl;
+    return currentRoom;
+}
 
+
+    /*
                     PSEUDOCODE
-    /*print all exits/directions of the current room, and all the items
+    print all exits/directions of the current room, and all the items
     cin >> <action> <target>
     if action == GO, {
         if target == north, return currentRoom->getNorth,

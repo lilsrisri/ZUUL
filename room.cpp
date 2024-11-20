@@ -26,5 +26,16 @@ void Room::setSouth(Room* room) {
 void Room::setWest(Room* room) {
     west = room;
 }
-
+Room* Room::getNorth() {
+    return north;
+}
+Room* Room::getSouth() {
+    return south;
+}
+Room* Room::getEast() {
+    return east;
+}
+Room* Room::getWest() {
+    return west;
+}
 

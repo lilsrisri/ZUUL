@@ -20,6 +20,10 @@ public:
     void setSouth(Room* room);
     void setWest(Room* room);
     const char* getName();
+    Room* getNorth();
+    Room* getEast();
+    Room* getSouth();
+    Room* getWest();
 private:
     const char* name;
     // vector<int> exits;
