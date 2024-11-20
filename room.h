@@ -15,12 +15,12 @@ using namespace std;
 class Room {
 public:
     Room(const char* name_arg);
-    void setNorth(Room* room);
+    void setNorth(Room* room); //sets each direction
     void setEast(Room* room);
     void setSouth(Room* room);
     void setWest(Room* room);
-    const char* getName();
-    Room* getNorth();
+    const char* getName(); //making the name for public use
+    Room* getNorth();  //making the directions for public use
     Room* getEast();
     Room* getSouth();
     Room* getWest();

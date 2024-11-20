@@ -5,6 +5,7 @@
 
 #include "item.h"
 
+//defining the functions in item.h
 Item::Item(const char* name_arg, Room* location_arg) {
     name = name_arg;
     location = location_arg;

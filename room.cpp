@@ -6,6 +6,7 @@
 
 
 using namespace std;
+//Defines the functions in room.h
 
 Room::Room(const char* name_arg) {
     name = name_arg;

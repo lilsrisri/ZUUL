@@ -13,9 +13,9 @@ using namespace std;
 
 class Item{
 public:
-    Item(const char* name_arg, Room* location_arg);
-    const char* getName();
-    Room* getLocation();
+    Item(const char* name_arg, Room* location_arg); //for items, it needs a name and a location
+    const char* getName(); //makes the name public
+    Room* getLocation(); //gets the location of the item
     void setLocation(Room* room);
 private:
     const char* name;
